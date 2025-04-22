@@ -21,7 +21,7 @@ class TooManyRequests(APIException):
 
 class VerifyPhoneRateLimit(BasePermission):
 
-    rate_limit = getattr(settings, 'PHONE_RATE_LIMIT', 3)
+    rate_limit = getattr(settings, 'PHONE_RATE_LIMIT', 5)
     rate_limit_time = getattr(settings, 'PHONE_RATE_LIMIT_TIME', 60 * 60)
 
     def has_permission(self, request, view):
@@ -78,7 +78,7 @@ class VerifyPhoneRateLimit(BasePermission):
 
             minutes, seconds = divmod(math.ceil(self.rate_limit_time), 60)
             if minutes > 0:
-                message = f"Please try again in {minutes} minute{'s' if minutes > 1 else ''} and {seconds} second{'s' if seconds > 1 else ''}!"
+                message = f"Your IP address is blocked for {minutes} minute{'s' if minutes > 1 else ''} and {seconds} second{'s' if seconds > 1 else ''}!"
            
             else:
                 message = f'Please try again in {seconds} second{'s' if seconds > 1 else ''}!'
